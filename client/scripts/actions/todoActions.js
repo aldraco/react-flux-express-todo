@@ -8,8 +8,7 @@ var baseUrl = 'http://localhost:3000';
 
 var TodoStoreActions = {
   add_todo: function(new_todo) {
-    // ADD API call here
-    console.log("You want to add a new todo?", new_todo);
+    // set up options
     var opts = {
       uri: '/api/todo',
       baseUrl: baseUrl,
@@ -20,12 +19,12 @@ var TodoStoreActions = {
         'Content-Type' : 'application/json'
       }
     };
-
+    // make the API post request
     request.post(opts, function (err, response, body) {
-        console.log('request returned with: ', body);
         if (!err && response.statusCode == 201) {
+          // upon success, fire the dispatcher to alert the stores
+          // server sends back as json
           var todo = body;
-          console.log("posted new todo and made the server round trip!");
           AppDispatcher.handleAction({
             actionType: TodoConstants.TODO_ADD,
             todo: todo
@@ -33,44 +32,6 @@ var TodoStoreActions = {
         }
       }
     );
-
-    // make a request
-    /*var opts = {
-      hostname: 'localhost',
-      port: 3000,
-      path: '/api/todo',
-      method: 'POST',
-      json: true,
-      headers: {
-        'Content-Type' : 'application/json'
-      }
-    };
-
-    var _data = '';
-
-    var req = http.request(opts, function(res) {
-      res.setEncoding('utf8');
-      res.on('data', function(chunk) {
-        _data += chunk;
-      });
-
-      res.on('end', function() {
-        // process the response
-        console.log('response received: ', _data);
-
-      });
-    });
-
-    req.on('error', function(e) {
-      console.error("There was a problem with your request:", e.message);
-    });
-
-    // make the request
-    // new_todo is already JSON
-    req.write(new_todo);
-    req.end();*/
-
-
   },
   edit_todo: function(todo) {
     AppDispatcher.handleAction({
@@ -102,13 +63,22 @@ var TodoStoreActions = {
   fetch_todos: function() {
     // make the API call
 
-    http.get('/api/todos', function(res) {
-      console.log('res', res.data);
+    http.get('/api/todo', function(res) {
+      var todos = '';
 
-      AppDispatcher.handleAction({
-        actionType: TodoConstants.RECEIVE_TODO_DATA,
-        todos: data
+      res.on('data', function(chunk) {
+        todos += chunk;
       });
+
+      res.on('end', function() {
+        var t = JSON.parse(todos);
+        console.log(t, typeof t);
+        AppDispatcher.handleAction({
+          actionType: TodoConstants.RECEIVE_TODO_DATA,
+          todos: t
+        });
+      });
+
     });
 
   }

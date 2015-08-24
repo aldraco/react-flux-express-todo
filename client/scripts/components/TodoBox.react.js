@@ -31,16 +31,21 @@ var AddTodoForm = React.createClass({
 var Todo = React.createClass({
   render: function() {
     var title = this.props.title;
+    
     return (
-      <li className='todo-list-item'>{title}</li>
+      <li className='todo-list-item'>
+        {title}
+      </li>
     )
   }
 });
 
 var TodoList = React.createClass({
   render: function() {
-    var todos = this.props.todos.map(function(todo) {
-      return <Todo title={todo.title} />
+    var todos = this.props.todos;
+    console.log(this.props, todos, typeof todos);
+    todos = todos.map(function(todo) {
+      return <Todo key={todo._id} title={todo.title} />
     });
 
     return (
@@ -56,6 +61,7 @@ var TodoList = React.createClass({
 });
 
 var TodoBox = React.createClass({
+
   handleTodoSubmit: function(new_todo) {
     // make the database call, via actions
     TodoStoreActions.add_todo(new_todo);
@@ -65,10 +71,12 @@ var TodoBox = React.createClass({
   },
 
   render: function() {
+    var todos = this.props.todos;
+
     return (
       <div>
-        <AddTodoForm onTodoSubmit={this.handleTodoSubmit}/>
-        <TodoList todos={this.props.todos} />
+        <AddTodoForm onTodoSubmit={this.handleTodoSubmit} />
+        <TodoList todos={todos} />
 
       </div>
     )

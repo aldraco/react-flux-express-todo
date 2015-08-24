@@ -11,6 +11,7 @@ var _focus = null;
 
 
 function load_todos(todos) {
+  console.log("todos loaded!");
   _todos = todos;
 }
 
@@ -64,6 +65,7 @@ AppDispatcher.register(function(payload) {
     case TodoAppConstants.RECEIVE_TODO_DATA:
       // when we receive data, we have fetched from the API
       // let's set it as the _todo variable
+      console.log("receiving todo data! of type ", typeof action.todos);
       load_todos(action.todos);
       break;
 
