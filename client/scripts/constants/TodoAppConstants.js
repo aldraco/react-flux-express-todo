@@ -1,6 +1,6 @@
 var KeyMirror = require('react/lib/keyMirror');
 
-module.exports = keyMirror({
+module.exports = KeyMirror({
   TODO_ADD: null,
   TODO_EDIT: null,
   TODO_COMPLETE: null,

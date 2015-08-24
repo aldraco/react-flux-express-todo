@@ -4,7 +4,7 @@
 
 var connection = {
   mongo: {
-    uri: 'mongodb://localhost/timeapp',
+    uri: 'mongodb://localhost/react-todo-dev',
     options: {
       db: {
         safe: true

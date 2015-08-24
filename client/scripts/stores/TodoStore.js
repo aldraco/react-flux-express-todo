@@ -10,7 +10,6 @@ var _todos = [];
 var _focus = null;
 
 
-// load the todos from the API (how exciting!)
 function load_todos(todos) {
   _todos = todos;
 }
@@ -92,3 +91,5 @@ AppDispatcher.register(function(payload) {
   return true;
 
 });
+
+module.exports = TodoStore;

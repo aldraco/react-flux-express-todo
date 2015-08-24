@@ -7,6 +7,7 @@ var config = require('./client/config');
 var routes = require('./server/routes/api.todo.routes.js');
 var mongoose = require('mongoose');
 var serverConfig = require('./server/serverConfig');
+var bodyParser = require('body-parser');
 
 // initialise express
 var app = express();
@@ -18,8 +19,23 @@ nunjucks.configure('server/templates/views', {
 });
 
 // Connect to MongoDB via mongoose
-mongoose.connect(serverConfig.mongo.uri, serverConfig.mongo.options);
+mongoose.connect(serverConfig.mongo.uri);
 
+mongoose.connection.on('connected', function() {
+  console.log("mongoose is connected at " + serverConfig.mongo.uri);
+});
+
+mongoose.connection.on('error', function(err) {
+  console.log("mongoose experienced an error, ", err);
+});
+
+mongoose.connection.on('disconnected', function() {
+  console.log("Mongoose disconnected.");
+});
+
+// set up body parsing middleware to handle the forms
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // less will automatically compile matching requests for .css files
 app.use(less('public'));

@@ -29,11 +29,13 @@ exports.show = function(req, res) {
 
 // Create a new Todo
 exports.create = function(req, res) {
+  console.log('new todo', req.body);
   Todo.create(req.body, function(err, todo) {
     if (err) {
       return handleError(res, err);
     } else {
-      return res.json(201, todo);
+      console.log("new todo created successfully", todo);
+      return res.status(201).json(todo);
     }
   });
 }
