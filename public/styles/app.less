@@ -8,10 +8,51 @@
 
 // Give the navigation some padding
 .nav {
-	margin: 10px 0;
 	
 	// Style the active links
 	a.active {
 		font-weight: bold;
 	}
+}
+
+.sub-navigation {
+  border-bottom: 1px solid blue;
+  margin-bottom: 10px;
+}
+
+ul.actions-list {
+  list-style: none;
+
+  li {
+    margin: 1% 20px 1% 0;
+    display: inline-block;
+  }
+}
+
+.todo-list {
+  padding-left: 0;
+  list-style: none;
+
+  .todo-list-item {
+    height: 130px;
+    width: 100%;
+    background-color: #eee;
+    padding: 4%;
+    border-bottom: 1px solid #222;
+    color: #222;
+
+    .title {
+      color: #979;
+      font-size: 1.6em;
+    }
+
+    p {
+      color: #666;
+    }
+  }
+}
+
+body {
+  // accomodates the fixed Nav
+  padding-top: 50px;
 }

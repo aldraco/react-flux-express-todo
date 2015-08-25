@@ -21,7 +21,8 @@ var TodoApp = React.createClass({
 
 var routes = {
   List: require('../routes/List'),
-  About: require('../routes/About')
+  About: require('../routes/About'),
+  ContentPane: require('./components/ContentPane.react.js')
 };
 
 // now set up the react router structure.
@@ -29,6 +30,7 @@ var routes = {
 var routes = (
   <Router.Route name="app" path="/" handler={TodoApp}>  
     <Router.Route name="list" path="/" handler={routes.List}/>
+      <Router.Route name="item" path="items/:id" handler={routes.List}/>
     <Router.Route name="about" path="/about" handler={routes.About}/>
     <Router.DefaultRoute handler={routes.Home}/>
   </Router.Route>

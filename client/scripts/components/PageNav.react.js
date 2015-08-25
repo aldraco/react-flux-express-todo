@@ -5,10 +5,18 @@ var React = require('react'),
 var PageNav = React.createClass({
   render: function() {
     return (
-      <div className="nav">
-        <Router.Link to="list">List</Router.Link>
-        &nbsp; | &nbsp;
-        <Router.Link to="about">About</Router.Link>
+      <div className="sub-navigation container">
+        <ul className="actions-list">
+          <li>
+            <a href='#'>Action One</a>
+          </li>
+          <li>
+            <a href='#'>Action Two</a>
+          </li>
+          <li>
+            <a href='#'>Action Three</a>
+          </li>
+        </ul>
       </div>
     );
   }

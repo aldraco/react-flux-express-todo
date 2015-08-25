@@ -54,10 +54,29 @@ var TodoStoreActions = {
       index: index
     });
   },
-  focus_todo: function(index) {
+  focus_todo: function(id) {
+    // changes the focus ID
+
     AppDispatcher.handleAction({
       actionType: TodoConstants.TODO_FOCUS,
-      index: index
+      focus: id
+    });
+  },
+  fetch_focused: function(id) {
+    // fetches the focused todo
+    http.get('/api/todo/'+id, function(res) {
+      var todo = '';
+
+      res.on('data', function(chunk) {
+        todo += chunk;
+      });
+      res.on('end', function() {
+        var t = JSON.parse(todo);
+        AppDispatcher.handleAction({
+          actionType: TodoConstants.RECEIVE_FOCUSED,
+          focus: t
+        });
+      });
     });
   },
   fetch_todos: function() {
@@ -72,7 +91,6 @@ var TodoStoreActions = {
 
       res.on('end', function() {
         var t = JSON.parse(todos);
-        console.log(t, typeof t);
         AppDispatcher.handleAction({
           actionType: TodoConstants.RECEIVE_TODO_DATA,
           todos: t

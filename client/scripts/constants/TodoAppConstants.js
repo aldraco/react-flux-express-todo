@@ -6,5 +6,6 @@ module.exports = KeyMirror({
   TODO_COMPLETE: null,
   TODO_DELETE: null,
   TODO_FOCUS: null,
-  RECEIVE_TODO_DATA: null
+  RECEIVE_TODO_DATA: null,
+  RECEIVE_FOCUSED: null
 });

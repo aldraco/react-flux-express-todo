@@ -15,13 +15,13 @@ exports.index = function(req, res) {
 // Get one Todo
 
 exports.show = function(req, res) {
-  Todo.find(req.params.id, function(err, todo) {
+  Todo.findById(req.params.todo_id, function(err, todo) {
     if (err) {
       return handleError(res, err);
     } else if (!todo) {
       return res.send(404);
     } else {
-      return res.json(todo);
+      return res.status(200).json(todo);
     }
   });
 }
