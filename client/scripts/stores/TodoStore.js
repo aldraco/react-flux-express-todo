@@ -26,6 +26,14 @@ function mark_complete(index) {
   _todos[index].completed = true;
 }
 
+function delete_todo(id) {
+  // remove the todo with that id
+  var t = _todos.filter(function(todo) {
+    return (todo._id !== id);
+  });
+  _todos = t;
+}
+
 // extend Todo store with Event Emitter!
 var TodoStore = _.extend({}, EventEmitter.prototype, {
 
@@ -79,6 +87,9 @@ AppDispatcher.register(function(payload) {
       break;
     case TodoAppConstants.TODO_COMPLETE:
       mark_complete(index);
+      break;
+    case TodoAppConstants.TODO_DELETE:
+      delete_todo(action.id);
       break;
     default:
       return true;

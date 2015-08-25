@@ -48,10 +48,24 @@ var TodoStoreActions = {
       index: index
     });
   },
-  delete_todo: function(index) {
-    AppDispatcher.handleAction({
-      actionType: TodoConstants.TODO_DELETE,
-      index: index
+  delete_todo: function(id) {
+    var opts = {
+      uri: '/api/todo/' + id,
+      baseUrl: baseUrl,
+      method: 'DELETE',
+      json: true,
+      headers: {
+        'Content-Type' : 'application/json'
+      }
+    };
+
+    request.del(opts, function (err, response, body) {
+      if (!err && response.statusCode === 204) {
+        AppDispatcher.handleAction({
+          actionType: TodoConstants.TODO_DELETE,
+          id: id
+        });
+      }
     });
   },
   focus_todo: function(id) {

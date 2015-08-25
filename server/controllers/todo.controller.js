@@ -43,7 +43,22 @@ exports.create = function(req, res) {
 
 
 // Delete Todo from Database
-
+exports.destroy = function(req, res) {
+  Todo.findById(req.params.todo_id, function(err, todo) {
+    if (err) {
+      return handleError(res, err);
+    }
+    if (!todo) {
+      return res.send(404);
+    } 
+    todo.remove(function(err) {
+      if (err) { 
+        return handleError(res, err);
+      }
+      return res.send(204);
+    });
+  });
+}
 
 
 // TODO more creative error handling?

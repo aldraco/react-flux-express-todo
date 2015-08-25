@@ -15,20 +15,23 @@ var AddTodoForm = React.createClass({
   },
 
   render: function() {
+    var isVisible = this.props.formVisible;
+
     return (
-      <div>
-        <div>
-          <button>
-            Add New
-          </button>
+      <div className='text-center'>
+        <div onClick={this.props.toggleFormVisible} id='expand-todo-form'>
+          <span className='title'>+ Add New</span>
         </div>
-        <form id="new_todo_form" onSubmit={this.handleSubmit} className='collapse'>
-          <div className="input-group">
-            <input type="text" name="todo_title" ref="todo_title"/>
-            <label>Title</label>
-          </div>
-          <button>Submit</button>
-        </form>
+        <div className={isVisible ? 'add-todo-form' : 'collapse'}>
+          <form id="new_todo_form" onSubmit={this.handleSubmit} className='form-inline'>
+            <div className='form-group'>
+              <div className="input-group">
+                <input type="text" className='form-control' name="todo_title" ref="todo_title"/>
+              </div>
+            </div>
+            <button type='submit' className='btn btn-primary'>Submit</button>
+          </form>
+        </div>
       </div>
     )
 
@@ -39,7 +42,11 @@ var Todo = React.createClass({
   handleClick: function() {
     // Clicking a Todo item results in changing the focus Todo
     TodoStoreActions.fetch_focused(this.props.data._id);
-    console.log('clicked', this.props.data);
+  },
+
+  handleDelete: function() {
+    console.log("getting called");
+    TodoStoreActions.delete_todo(this.props.data._id);
   },
 
   render: function() {
@@ -47,31 +54,42 @@ var Todo = React.createClass({
     
     return (
       <li onClick={this.handleClick}>
-        <div className='todo-list-item container row'>
-          <div className='col-xs-10'>
-            <div className='row'>
-              <span className='title'>
-                {todo.title}
-              </span>
+        <div className='todo-list-item container'>
+          <div className='row'>
+            <div className='col-xs-10'>
+              <div className='row'>
+                <div className='col-xs-12'>
+                  <span className='title'>
+                    {todo.title}
+                  </span>
+                </div>
+              </div>
+              <div className='row'>
+                <div className='col-xs-12'>
+                  <p>
+                    Snippet text.
+                  </p>
+                </div>
+              </div>
+              <div className='row'>
+                <div className='col-xs-12'>
+                  <span className='label label-important'>Badge</span>
+                </div>
+              </div>
             </div>
-            <div className='row'>
-              <p><strong>Snippet text...</strong></p>
-            </div>         
-            <div className='row'>
-              <span className='label label-important'>badges</span>
-            </div>
-          </div>
-          <div className='col-xs-2'>
-            <div className='row'>
-              <div className="checkbox pull-right">
-                <label>
-                  <input type="checkbox" />
-                </label>
+            <div className='col-xs-2'>
+              <div className=''>
+                <button className='btn btn-primary'>
+                  X
+                 </button>
+              </div>
+              <div>
+                 <button className='btn btn-danger' onClick={this.handleDelete}>
+                  X
+                 </button>
               </div>
             </div>
           </div>
-          
-
         </div>
       </li>
     )
@@ -110,7 +128,7 @@ var TodoBox = React.createClass({
 
     return (
       <div>
-        <AddTodoForm onTodoSubmit={this.handleTodoSubmit} />
+        <AddTodoForm onTodoSubmit={this.handleTodoSubmit} formVisible={this.props.formVisible} toggleFormVisible={this.props.toggleFormVisible} />
         <TodoList todos={todos} />
 
       </div>

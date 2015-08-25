@@ -11,10 +11,20 @@ var List = React.createClass({
     var todos = TodoStore.getTodos();
     var focused = FocusStore.getFocused();
 
+
     return {
       todos: todos,
-      focused: focused
+      focused: focused,
+      formVisible: true
     };
+  },
+
+  toggleFormVisible: function() {
+    console.log('clicking');
+    var toggleVisible = !this.state.formVisible;
+    this.setState({
+      formVisible: toggleVisible
+    });
   },
 
   componentDidMount: function() {
@@ -38,8 +48,8 @@ var List = React.createClass({
 
     return (
       <div className='container row'>
-        <div className='col-xs-12 col-sm-4'>
-          <TodoBox todos={this.state.todos}/>
+        <div className='col-xs-12 col-sm-4 clean-row'>
+          <TodoBox todos={this.state.todos} formVisible={this.state.formVisible} toggleFormVisible={this.toggleFormVisible}/>
         </div>
         <div className='col-xs-12 col-sm-8'>
           <ContentPane focus={this.state.focused}/>

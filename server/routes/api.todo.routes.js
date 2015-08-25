@@ -10,6 +10,8 @@ router.route('/')
   .post(controller.create);
 
 router.route('/:todo_id')
-  .get(controller.show);
+  .get(controller.show)
+  .delete(controller.destroy);
+
 
 module.exports = router;
