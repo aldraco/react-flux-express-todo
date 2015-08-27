@@ -8,13 +8,13 @@ var PageNav = React.createClass({
       <div className="sub-navigation container">
         <ul className="actions-list">
           <li>
-            <a href='#'>Action One</a>
+            <a href='#'>Delete Completed</a>
           </li>
           <li>
-            <a href='#'>Action Two</a>
+            <a href='#'>Mark All Complete</a>
           </li>
           <li>
-            <a href='#'>Action Three</a>
+            <a href='#'>Mark All Incomplete</a>
           </li>
         </ul>
       </div>

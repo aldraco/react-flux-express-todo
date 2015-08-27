@@ -1,21 +1,40 @@
 var React = require('react');
 var TodoStoreActions = require('../actions/todoActions.js');
 var TodoStore = require('../stores/TodoStore.js');
+var ReactCSSTransitionGroup = require('react/lib/ReactCSSTransitionGroup');
 
 var AddTodoForm = React.createClass({
+  getInitialState: function() {
+    return {
+      form_title: 'Title'
+    };
+  },
+
+  handleChange: function(e) {
+    var form_title = this.state.form_title;
+    form_title = e.target.value;
+    this.setState({
+      form_title: form_title
+    });
+  },
+
   handleSubmit: function(e) {
     // prevent default event action
     e.preventDefault();
-    var title = React.findDOMNode(this.refs.todo_title).value.trim();
+    var title = this.state.form_title;
     // pass the data off to the parent component
     this.props.onTodoSubmit({title: title});
     // reset the view
-    React.findDOMNode(this.refs.todo_title).value = '';
+
+    this.setState({
+      form_title: 'Title'
+    });
 
   },
 
   render: function() {
     var isVisible = this.props.formVisible;
+    var form_title = this.state.form_title;
 
     return (
       <div className='text-center'>
@@ -26,7 +45,7 @@ var AddTodoForm = React.createClass({
           <form id="new_todo_form" onSubmit={this.handleSubmit} className='form-inline'>
             <div className='form-group'>
               <div className="input-group">
-                <input type="text" className='form-control' name="todo_title" ref="todo_title"/>
+                <input type="text" className='form-control' value={form_title} name="todo_title" onChange={this.handleChange}   />
               </div>
             </div>
             <button type='submit' className='btn btn-primary'>Submit</button>
@@ -45,46 +64,47 @@ var Todo = React.createClass({
   },
 
   handleDelete: function() {
-    console.log("getting called");
     TodoStoreActions.delete_todo(this.props.data._id);
   },
 
   render: function() {
     var todo = this.props.data;
+    var extraClass = this.props.focused ? ' focused' : '';
+    var classes = 'todo-list-item container' + extraClass;
     
     return (
       <li onClick={this.handleClick}>
-        <div className='todo-list-item container'>
+        <div className={classes}>
           <div className='row'>
-            <div className='col-xs-10'>
-              <div className='row'>
+            <div className='col-xs-10 col-sm-8 col-md-9'>
+              <div className='row todo-title-row'>
                 <div className='col-xs-12'>
                   <span className='title'>
                     {todo.title}
                   </span>
                 </div>
               </div>
-              <div className='row'>
+              <div className='row todo-snippet-row'>
                 <div className='col-xs-12'>
                   <p>
                     Snippet text.
                   </p>
                 </div>
               </div>
-              <div className='row'>
+              <div className='row todo-badges-row'>
                 <div className='col-xs-12'>
                   
                 </div>
               </div>
             </div>
-            <div className='col-xs-2'>
-              <div className=''>
-                <button className='btn btn-primary'>
+            <div className='col-xs-2 col-sm-4 col-md-3'>
+              <div className='button-bar'>
+                <button className='btn btn-complete-todo'>
                   X
                  </button>
               </div>
-              <div>
-                 <button className='btn btn-danger' onClick={this.handleDelete}>
+              <div className='button-bar'>
+                 <button className='btn btn-delete-todo' onClick={this.handleDelete}>
                   X
                  </button>
               </div>
@@ -99,15 +119,17 @@ var Todo = React.createClass({
 var TodoList = React.createClass({
   render: function() {
     var todos = this.props.todos;
-    console.log(this.props, todos, typeof todos);
+    var focused = this.props.focused;
+
     todos = todos.map(function(todo) {
-      return <Todo key={todo._id} data={todo} />
+      var isFocused = (todo._id === focused._id);
+      return <Todo key={todo._id} data={todo} focused={isFocused} />
     });
 
     return (
       // list TODOs
         <ul className="todo-list">
-          {todos}
+            {todos}
         </ul>
     )
   }
@@ -117,7 +139,6 @@ var TodoBox = React.createClass({
 
   handleTodoSubmit: function(new_todo) {
     // make the database call, via actions
-    console.log("passed thru todo box", new_todo);
     TodoStoreActions.add_todo(new_todo);
     // dispatcher should update the store for us
     // updating the store should update the view
@@ -128,9 +149,9 @@ var TodoBox = React.createClass({
     var todos = this.props.todos;
 
     return (
-      <div>
+      <div id='todo-list'>
         <AddTodoForm onTodoSubmit={this.handleTodoSubmit} formVisible={this.props.formVisible} toggleFormVisible={this.props.toggleFormVisible} />
-        <TodoList todos={todos} />
+        <TodoList todos={todos} focused={this.props.focused} />
 
       </div>
     )

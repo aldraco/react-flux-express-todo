@@ -12,7 +12,7 @@ var ContentPane = React.createClass({
       'description' : 'Select a todo item on the left to view details.'
     };
     return (
-      <div className="container">
+      <div className="" id='content-pane'>
         <h2>
           {focus.title}
         </h2>

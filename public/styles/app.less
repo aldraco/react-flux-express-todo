@@ -6,6 +6,19 @@
 // Import Bootstrap
 @import "../../node_modules/bootstrap/less/bootstrap.less";
 
+body {
+  font-family: 'Merriweather', serif;
+}
+
+.todo-enter {
+  opacity: 0.01;
+}
+
+.todo-enter.todo-enter-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
 // Give the navigation some padding
 .nav {
 	
@@ -15,12 +28,29 @@
 	}
 }
 
+.navbar-inverse {
+  background-color: #ECE4EC;
+  border-color: #E5D9E5;
+  box-shadow: 0 1px 9px rgba(142, 151, 155, .67);
+}
+
 #expand-todo-form {
   font-size: 1.3em;
   text-align: center;
   font-weight: 500;
-  background-color: #969;
-  border-radius: 10px 10px 0 0;
+  background-color: #9D849D;
+  color: white;
+  border-radius: 2px 2px 0 0;
+  padding: 2.4%;
+
+  &:hover {
+    background-color: #969;
+  }
+}
+
+.todo-title-row,
+.todo-snippet-row,
+.todo-badges-row {
 }
 
 .add-todo-form {
@@ -32,17 +62,32 @@
 }
 
 .sub-navigation {
-  border-bottom: 1px solid blue;
+  border-bottom: 1px solid #E5D9E5;
   margin-bottom: 10px;
+  a {
+    color: #969;
+  }
 }
 
 ul.actions-list {
   list-style: none;
+  margin: 0;
+  padding: 5px;
 
   li {
     margin: 1% 20px 1% 0;
     display: inline-block;
   }
+}
+
+#todo-list,
+#content-pane {
+  box-shadow: 1px 5px 11px rgba(142, 151, 155, .67);
+}
+
+#content-pane {
+  padding: 20px;
+  min-height: 450px;
 }
 
 .todo-list {
@@ -52,7 +97,7 @@ ul.actions-list {
   .todo-list-item {
     height: 130px;
     width: 100%;
-    background-color: #eee;
+    background-color: rgba(199, 210, 211, 0.19);;
     padding: 4%;
     border-bottom: 1px solid #222;
     color: #222;
@@ -62,8 +107,44 @@ ul.actions-list {
       font-size: 1.6em;
     }
 
+    .button-bar {
+      margin: 10px auto;
+      float: right;
+    }
+
     p {
       color: #666;
+    }
+
+    &:hover {
+      background-color: rgba(122, 211, 219, .09);
+      color: #999;
+      .title {
+        color: #979;
+      }
+    }
+
+    &.focused {
+      background-color: rgba(122, 211, 219, .19);
+    }
+
+
+    .btn {
+      border-radius: 50%;
+      color: white;
+      box-shadow: 1px 5px 11px rgba(142, 151, 155, .67);
+      &.btn-complete-todo {
+        background-color: #9D849D;
+        &:hover {
+          background-color: #969;
+        }
+      }
+      &.btn-delete-todo {
+        background-color: #BE5580;
+        &:hover {
+          background-color:#DB065D;
+        }
+      }
     }
   }
 }

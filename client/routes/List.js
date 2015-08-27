@@ -49,9 +49,9 @@ var List = React.createClass({
     return (
       <div className='container row'>
         <div className='col-xs-12 col-sm-4 clean-row'>
-          <TodoBox todos={this.state.todos} formVisible={this.state.formVisible} toggleFormVisible={this.toggleFormVisible}/>
+          <TodoBox todos={this.state.todos} focused={this.state.focused} formVisible={this.state.formVisible} toggleFormVisible={this.toggleFormVisible}/>
         </div>
-        <div className='col-xs-12 col-sm-8'>
+        <div className='col-xs-12 col-sm-7 col-sm-offset-1'>
           <ContentPane focus={this.state.focused}/>
         </div>
         
