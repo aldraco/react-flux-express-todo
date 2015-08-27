@@ -19,6 +19,7 @@ function setFocus(index) {
 }
 
 function add_new_Todo(todo) {
+  console.log("adding to store", todo);
   _todos.push(todo);
 }
 

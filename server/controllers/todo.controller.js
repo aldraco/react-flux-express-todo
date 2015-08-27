@@ -29,6 +29,7 @@ exports.show = function(req, res) {
 
 // Create a new Todo
 exports.create = function(req, res) {
+  console.log('create called', req.body);
   Todo.create(req.body, function(err, todo) {
     if (err) {
       return handleError(res, err);
@@ -64,5 +65,6 @@ exports.destroy = function(req, res) {
 // TODO more creative error handling?
 
 function handleError(res, err) {
+  console.log("error", err);
   return res.send(500, err);
 }

@@ -19,12 +19,15 @@ var TodoStoreActions = {
         'Content-Type' : 'application/json'
       }
     };
+    console.log("action called", new_todo);
     // make the API post request
     request.post(opts, function (err, response, body) {
+        console.log(err, response.statusCode, body);
         if (!err && response.statusCode == 201) {
           // upon success, fire the dispatcher to alert the stores
           // server sends back as json
           var todo = body;
+          console.log('success from server side', body);
           AppDispatcher.handleAction({
             actionType: TodoConstants.TODO_ADD,
             todo: todo

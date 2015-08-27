@@ -73,7 +73,7 @@ var Todo = React.createClass({
               </div>
               <div className='row'>
                 <div className='col-xs-12'>
-                  <span className='label label-important'>Badge</span>
+                  
                 </div>
               </div>
             </div>
@@ -117,6 +117,7 @@ var TodoBox = React.createClass({
 
   handleTodoSubmit: function(new_todo) {
     // make the database call, via actions
+    console.log("passed thru todo box", new_todo);
     TodoStoreActions.add_todo(new_todo);
     // dispatcher should update the store for us
     // updating the store should update the view
