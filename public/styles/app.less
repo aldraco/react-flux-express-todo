@@ -8,6 +8,7 @@
 
 body {
   font-family: 'Merriweather', serif;
+  background-color: rgba(82,73,91,.05);
 }
 
 .todo-enter {
@@ -26,6 +27,13 @@ body {
 	a.active {
 		font-weight: bold;
 	}
+}
+
+.navbar-brand {
+  padding: 10px 15px;
+  img {
+    border-radius: 50%;
+  }
 }
 
 .navbar-inverse {
@@ -83,6 +91,7 @@ ul.actions-list {
 #todo-list,
 #content-pane {
   box-shadow: 1px 5px 11px rgba(142, 151, 155, .67);
+  background-color: white;
 }
 
 #content-pane {
@@ -116,6 +125,17 @@ ul.actions-list {
       color: #666;
     }
 
+    .todo-complete-status {
+      border: 3px solid rgba(153,102,153,.4);
+      border-radius: 50%;
+      height: 35px;
+      width: 35px;
+
+      &.completed {
+        background-color: #BE5580;
+      }
+    }
+
     &:hover {
       background-color: rgba(122, 211, 219, .09);
       color: #999;
@@ -132,17 +152,12 @@ ul.actions-list {
     .btn {
       border-radius: 50%;
       color: white;
-      box-shadow: 1px 5px 11px rgba(142, 151, 155, .67);
-      &.btn-complete-todo {
-        background-color: #9D849D;
-        &:hover {
-          background-color: #969;
-        }
-      }
+
       &.btn-delete-todo {
-        background-color: #BE5580;
+        background-color: rgba(178,108,137,.32);
         &:hover {
           background-color:#DB065D;
+          box-shadow: 1px 5px 11px rgba(142, 151, 155, .67);
         }
       }
     }

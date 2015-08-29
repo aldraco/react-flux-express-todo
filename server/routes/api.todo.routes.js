@@ -11,6 +11,7 @@ router.route('/')
 
 router.route('/:todo_id')
   .get(controller.show)
+  .put(controller.update)
   .delete(controller.destroy);
 
 

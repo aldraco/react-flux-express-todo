@@ -29,7 +29,6 @@ exports.show = function(req, res) {
 
 // Create a new Todo
 exports.create = function(req, res) {
-  console.log('create called', req.body);
   Todo.create(req.body, function(err, todo) {
     if (err) {
       return handleError(res, err);
@@ -41,6 +40,20 @@ exports.create = function(req, res) {
 
 
 // Update a Todo
+exports.update = function(req, res) {
+  Todo.findById(req.params.todo_id, function(err, todo) {
+    // new info
+    var new_info = req.body;
+    todo = _.assign(todo, new_info);
+    todo.save(function(err) {
+      if (err) {
+        return handleError(res, err);
+      } else {
+        return res.send(200);
+      }
+    })
+  });
+}
 
 
 // Delete Todo from Database

@@ -19,13 +19,20 @@ function setFocus(index) {
 }
 
 function add_new_Todo(todo) {
-  console.log("adding to store", todo);
   _todos.push(todo);
 }
 
-function mark_complete(index) {
-  _todos[index].completed = true;
+function toggle_complete(id) {
+  var ts = _todos;
+  _todos = ts.map(function(to) {
+    if (to._id === id) {
+      to.completed = !to.completed;
+    }
+
+    return to;
+  });
 }
+
 
 function delete_todo(id) {
   // remove the todo with that id
@@ -86,8 +93,8 @@ AppDispatcher.register(function(payload) {
       // the payload is just the new todo
       add_new_Todo(action.todo);
       break;
-    case TodoAppConstants.TODO_COMPLETE:
-      mark_complete(index);
+    case TodoAppConstants.TODO_TOGGLE_COMPLETE:
+      toggle_complete(action.id);
       break;
     case TodoAppConstants.TODO_DELETE:
       delete_todo(action.id);

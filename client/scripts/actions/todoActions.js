@@ -19,15 +19,12 @@ var TodoStoreActions = {
         'Content-Type' : 'application/json'
       }
     };
-    console.log("action called", new_todo);
     // make the API post request
     request.post(opts, function (err, response, body) {
-        console.log(err, response.statusCode, body);
         if (!err && response.statusCode == 201) {
           // upon success, fire the dispatcher to alert the stores
           // server sends back as json
           var todo = body;
-          console.log('success from server side', body);
           AppDispatcher.handleAction({
             actionType: TodoConstants.TODO_ADD,
             todo: todo
@@ -42,15 +39,35 @@ var TodoStoreActions = {
       todo: todo
     });
   },
-  complete_todo: function(index) {
-    
-    // add API call here
+  toggle_complete: function(id, status) {
 
-    AppDispatcher.handleAction({
-      actionType: TodoConstants.TODO_COMPLETE,
-      index: index
+    var body = {
+      'completed': !status
+    };
+
+    var opts = {
+      uri: '/api/todo/' + id,
+      baseUrl: baseUrl,
+      method: 'PUT', 
+      json: true,
+      body: body,
+      headers: {
+        'Content-Type' : 'application/json'
+      }
+    };
+
+    request(opts, function (err, response, body) {
+      if (!err && response.statusCode === 200) {
+        AppDispatcher.handleAction({
+          actionType: TodoConstants.TODO_TOGGLE_COMPLETE,
+          id: id
+        });
+      }
     });
+
+    
   },
+
   delete_todo: function(id) {
     var opts = {
       uri: '/api/todo/' + id,
@@ -81,6 +98,9 @@ var TodoStoreActions = {
   },
   fetch_focused: function(id) {
     // fetches the focused todo
+    if (!id) {
+      return;
+    }
     http.get('/api/todo/'+id, function(res) {
       var todo = '';
 

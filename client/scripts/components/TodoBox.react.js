@@ -67,10 +67,16 @@ var Todo = React.createClass({
     TodoStoreActions.delete_todo(this.props.data._id);
   },
 
+  handleToggleComplete: function() {
+    // bubble it up to the list
+    this.props.onTodoToggleComplete(this.props.data._id, this.props.data.completed);
+  },
+
   render: function() {
     var todo = this.props.data;
     var extraClass = this.props.focused ? ' focused' : '';
     var classes = 'todo-list-item container' + extraClass;
+    var isCompleted = this.props.data.completed ? 'todo-complete-status completed' : 'todo-complete-status';
     
     return (
       <li onClick={this.handleClick}>
@@ -87,7 +93,7 @@ var Todo = React.createClass({
               <div className='row todo-snippet-row'>
                 <div className='col-xs-12'>
                   <p>
-                    Snippet text.
+                    
                   </p>
                 </div>
               </div>
@@ -99,9 +105,7 @@ var Todo = React.createClass({
             </div>
             <div className='col-xs-2 col-sm-4 col-md-3'>
               <div className='button-bar'>
-                <button className='btn btn-complete-todo'>
-                  X
-                 </button>
+                <div className={isCompleted} onClick={this.handleToggleComplete} ></div>
               </div>
               <div className='button-bar'>
                  <button className='btn btn-delete-todo' onClick={this.handleDelete}>
@@ -120,10 +124,12 @@ var TodoList = React.createClass({
   render: function() {
     var todos = this.props.todos;
     var focused = this.props.focused;
+    var onTodoToggleComplete = this.props.onTodoToggleComplete;
 
     todos = todos.map(function(todo) {
       var isFocused = (todo._id === focused._id);
-      return <Todo key={todo._id} data={todo} focused={isFocused} />
+      
+      return <Todo key={todo._id} data={todo} focused={isFocused} onTodoToggleComplete={onTodoToggleComplete} />
     });
 
     return (
@@ -145,13 +151,17 @@ var TodoBox = React.createClass({
     // via the _onChange method
   },
 
+  handleTodoToggleComplete: function(id, status) {
+    TodoStoreActions.toggle_complete(id, status);
+  },
+
   render: function() {
     var todos = this.props.todos;
 
     return (
       <div id='todo-list'>
         <AddTodoForm onTodoSubmit={this.handleTodoSubmit} formVisible={this.props.formVisible} toggleFormVisible={this.props.toggleFormVisible} />
-        <TodoList todos={todos} focused={this.props.focused} />
+        <TodoList todos={todos} focused={this.props.focused} onTodoToggleComplete={this.handleTodoToggleComplete} />
 
       </div>
     )
